@@ -1,0 +1,184 @@
+<Page x:Class="SefIzFioke.Views.GlavniEkranPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Background="#5B8FA8"
+      Title="Glavni ekran">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="75"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="90"/>
+        </Grid.RowDefinitions>
+
+        <!-- HEADER -->
+        <Border Grid.Row="0" Background="#4A7A8F" Padding="15,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Border Width="55" Height="55" Background="White" CornerRadius="8" Margin="0,0,12,0">
+                        <Image Source="/Assets/favicon_io/favicon.ico" Stretch="Uniform" Margin="4"/>
+                    </Border>
+                    <TextBlock Text="Šef iz fioke" FontSize="22" Foreground="White"
+                               FontFamily="Palatino Linotype" FontStyle="Italic"
+                               VerticalAlignment="Center"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="2" Orientation="Horizontal"
+                            VerticalAlignment="Center" Margin="0,0,15,0">
+                    <Button Style="{StaticResource HeaderDugme}" Content="🔍"
+                            Click="BtnPretraga_Click" ToolTip="Pretraga recepata"/>
+                    <Button Style="{StaticResource HeaderDugme}" Content="✉" ToolTip="Poruke"/>
+                    <Button Style="{StaticResource HeaderDugme}" Content="👥" ToolTip="Korisnici"/>
+                    <Button Style="{StaticResource HeaderDugme}" Content="📋"
+                            Click="BtnUnosRecepta_Click" ToolTip="Unos recepta"/>
+                    <Button Style="{StaticResource HeaderDugme}" Content="❓" ToolTip="Pomoć" Click="BtnPomoc_Click"/>
+                    <Button x:Name="BtnAdmin"
+                            Style="{StaticResource HeaderDugme}"
+                            Content="🛡" ToolTip="Admin panel"
+                            Click="BtnAdmin_Click"
+                            Visibility="Collapsed"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="3" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button Style="{StaticResource HeaderDugme}" Content="⚙"/>
+                    <Button Style="{StaticResource HeaderDugme}" Content="🚪"
+                            Click="BtnLogout_Click"/>
+                    <Button Style="{StaticResource HeaderDugme}" Content="👤"
+                            Click="BtnLogin_Click"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- KARUSEL -->
+        <Grid Grid.Row="1" Margin="15,20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="70"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="70"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Strelica levo -->
+            <Button Grid.Column="0" x:Name="BtnPrev"
+                    Width="52" Height="52" VerticalAlignment="Center"
+                    Click="BtnPrev_Click" Cursor="Hand">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bd" Background="White" CornerRadius="8" Width="52" Height="52">
+                            <TextBlock Text="&lt;" FontSize="22" FontWeight="Bold"
+                                       Foreground="#4A7A8F"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="#E0EEF4"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+
+            <!-- Kartica recepta -->
+            <Border Grid.Column="1" x:Name="KarticaBorder"
+                    CornerRadius="20" ClipToBounds="True"
+                    Margin="8,0" Cursor="Hand"
+                    MouseLeftButtonUp="KarticaRecept_Click">
+                <Grid>
+                    <!-- Slika (ako postoji) -->
+                    <Image x:Name="ImgRecept" Stretch="UniformToFill"/>
+
+                    <!-- Emoji pozadina (kad nema slike) -->
+                    <Grid x:Name="GridEmoji">
+                        <Grid.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop x:Name="GradStop1" Color="#4A7A8F" Offset="0"/>
+                                <GradientStop x:Name="GradStop2" Color="#2E5266" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Grid.Background>
+                        <TextBlock x:Name="TxtEmoji" Text="🍽"
+                                   FontSize="180" Opacity="0.25"
+                                   HorizontalAlignment="Right"
+                                   VerticalAlignment="Center"
+                                   Margin="0,0,30,0"/>
+                    </Grid>
+
+                    <!-- Tamni overlay -->
+                    <Border>
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                <GradientStop Color="#CC000000" Offset="0"/>
+                                <GradientStop Color="#66000000" Offset="0.6"/>
+                                <GradientStop Color="#11000000" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                    </Border>
+
+                    <!-- Tekst -->
+                    <StackPanel VerticalAlignment="Center" Margin="40,20"
+                                MaxWidth="450" HorizontalAlignment="Left">
+                        <TextBlock x:Name="TxtNaziv"
+                                   FontSize="32" FontWeight="Bold"
+                                   Foreground="White" TextWrapping="Wrap"/>
+                        <TextBlock x:Name="TxtAutor"
+                                   FontSize="13" Foreground="#DDDDDD"
+                                   Margin="0,8,0,14"/>
+                        <TextBlock x:Name="TxtOpis"
+                                   FontSize="14" Foreground="White"
+                                   TextWrapping="Wrap" MaxHeight="120"
+                                   TextTrimming="CharacterEllipsis"
+                                   LineHeight="22"/>
+
+                        <!-- Tagovi -->
+                        <StackPanel Orientation="Horizontal" Margin="0,16,0,0">
+                            <Border Background="#44FFFFFF" CornerRadius="6" Padding="10,5" Margin="0,0,8,0">
+                                <TextBlock x:Name="TxtVremeTag" Foreground="White" FontSize="12"/>
+                            </Border>
+                            <Border Background="#44FFFFFF" CornerRadius="6" Padding="10,5">
+                                <TextBlock x:Name="TxtPorcijeTag" Foreground="White" FontSize="12"/>
+                            </Border>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!-- Indikatori (tacke) -->
+                    <StackPanel x:Name="PanelIndikatora"
+                                Orientation="Horizontal"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Bottom"
+                                Margin="0,0,0,15"/>
+                </Grid>
+            </Border>
+
+            <!-- Strelica desno -->
+            <Button Grid.Column="2" x:Name="BtnNext"
+                    Width="52" Height="52" VerticalAlignment="Center"
+                    Click="BtnNext_Click" Cursor="Hand">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bd" Background="White" CornerRadius="8" Width="52" Height="52">
+                            <TextBlock Text="&gt;" FontSize="22" FontWeight="Bold"
+                                       Foreground="#4A7A8F"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="#E0EEF4"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </Grid>
+
+        <!-- FOOTER -->
+        <TextBlock Grid.Row="2"
+                   Text="Pronađite savršen recept brzo i lako pretražujte&#10;po sastojcima, nazivima ili vrstama jela. Uživajte u kuvanju!"
+                   HorizontalAlignment="Center" VerticalAlignment="Center"
+                   Foreground="White" FontSize="15" TextAlignment="Center" LineHeight="24"/>
+    </Grid>
+</Page>

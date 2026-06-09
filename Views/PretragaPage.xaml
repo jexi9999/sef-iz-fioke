@@ -1,0 +1,268 @@
+<Page x:Class="SefIzFioke.Views.PretragaPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Background="#5B8FA8"
+      Title="Pretraga recepata">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="65"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="70"/>
+        </Grid.RowDefinitions>
+
+        <!-- HEADER -->
+        <Border Grid.Row="0" Background="#4A7A8F" Padding="15,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Border Width="48" Height="48" Background="White" CornerRadius="6" Margin="0,0,10,0">
+                        <Image Source="/Assets/favicon_io/favicon.ico" Stretch="Uniform" Margin="4"/>
+                    </Border>
+                    <TextBlock FontSize="18" Foreground="White" VerticalAlignment="Center"
+                               FontFamily="Palatino Linotype" FontStyle="Italic">
+                        <Run Text="Šef iz fioke"/>
+                        <Run Text=" > pretraga recepata" Foreground="#CCCCCC" FontSize="13"/>
+                    </TextBlock>
+                </StackPanel>
+                <Button Grid.Column="1" Content="← Nazad"
+                        Style="{StaticResource HeaderDugme}"
+                        Width="Auto" Padding="12,0" FontSize="14"
+                        Click="BtnNazad_Click" Margin="15,0,0,0"/>
+                <Button Grid.Column="3" Content="Povratak na meni"
+                        Style="{StaticResource OutlineDugme}"
+                        Foreground="White" BorderBrush="White"
+                        Click="BtnPovratak_Click" Margin="0,0,15,0"/>
+                <StackPanel Grid.Column="4" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button Style="{StaticResource HeaderDugme}" Content="❓" ToolTip="Pomoć" Click="BtnPomoc_Click"/>
+                    <Button Style="{StaticResource HeaderDugme}" Content="⚙"/>
+                    <Button Style="{StaticResource HeaderDugme}" Content="🚪" Click="BtnLogout_Click"/>
+                    <Button Style="{StaticResource HeaderDugme}" Content="👤" Click="BtnLogin_Click"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- SADRZAJ -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <Grid Margin="25,20,25,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- ===== LEVA KOLONA ===== -->
+                <StackPanel Grid.Column="0">
+
+                    <!-- Pretraga po imenu -->
+                    <Border Background="#3D6B80" CornerRadius="10" Padding="14,12" Margin="0,0,0,14">
+                        <StackPanel>
+                            <TextBlock Text="🔍  Naziv recepta" Foreground="White"
+                                       FontSize="13" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                            <TextBox x:Name="TxtImeRecepta" Style="{StaticResource UnosPolje}" Foreground="Black" Background="White"
+                                     Height="38"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Namirnice -->
+                    <Border Background="#3D6B80" CornerRadius="10" Padding="14,12" Margin="0,0,0,14">
+                        <StackPanel>
+                            <TextBlock Text="🥦  Izaberite namirnice" Foreground="White"
+                                       FontSize="13" FontWeight="SemiBold" Margin="0,0,0,10"/>
+
+                            <TextBlock Text="Mleko i mlečni proizvodi" Foreground="#BBDDEE" FontSize="11" Margin="0,0,0,4"/>
+                            <ComboBox x:Name="CmbMleko" Style="{StaticResource FilterCombo}" Margin="0,0,0,10">
+                                <ComboBoxItem Content="Sve (mleko)" IsSelected="True"/>
+                                <ComboBoxItem Content="Punomasno mleko"/>
+                                <ComboBoxItem Content="Obrano mleko"/>
+                                <ComboBoxItem Content="Jogurt"/>
+                                <ComboBoxItem Content="Sir"/>
+                                <ComboBoxItem Content="Pavlaka"/>
+                                <ComboBoxItem Content="Biljno mleko"/>
+                                <ComboBoxItem Content="Bez mlečnih proizvoda"/>
+                            </ComboBox>
+
+                            <TextBlock Text="Meso i riba" Foreground="#BBDDEE" FontSize="11" Margin="0,0,0,4"/>
+                            <ComboBox x:Name="CmbMeso" Style="{StaticResource FilterCombo}" Margin="0,0,0,10">
+                                <ComboBoxItem Content="Sve (meso)" IsSelected="True"/>
+                                <ComboBoxItem Content="Junetina"/>
+                                <ComboBoxItem Content="Svinjetina"/>
+                                <ComboBoxItem Content="Piletina"/>
+                                <ComboBoxItem Content="Ćuretina"/>
+                                <ComboBoxItem Content="Jagnjetina"/>
+                                <ComboBoxItem Content="Riba"/>
+                                <ComboBoxItem Content="Morski plodovi"/>
+                                <ComboBoxItem Content="Bez mesa"/>
+                            </ComboBox>
+
+                            <TextBlock Text="Osnove namirnice" Foreground="#BBDDEE" FontSize="11" Margin="0,0,0,4"/>
+                            <ComboBox x:Name="CmbNamirnice" Style="{StaticResource FilterCombo}" Margin="0,0,0,10">
+                                <ComboBoxItem Content="Sve namirnice" IsSelected="True"/>
+                                <ComboBoxItem Content="Jaja"/>
+                                <ComboBoxItem Content="Brašno"/>
+                                <ComboBoxItem Content="Pirinač"/>
+                                <ComboBoxItem Content="Testenina"/>
+                                <ComboBoxItem Content="Krompir"/>
+                                <ComboBoxItem Content="Povrće"/>
+                                <ComboBoxItem Content="Voće"/>
+                                <ComboBoxItem Content="Mahunarke"/>
+                                <ComboBoxItem Content="Orašasti plodovi"/>
+                            </ComboBox>
+
+                            <TextBlock Text="Slatko i deserti" Foreground="#BBDDEE" FontSize="11" Margin="0,0,0,4"/>
+                            <ComboBox x:Name="CmbSlatko" Style="{StaticResource FilterCombo}">
+                                <ComboBoxItem Content="Sve (slatko)" IsSelected="True"/>
+                                <ComboBoxItem Content="Beli šećer"/>
+                                <ComboBoxItem Content="Smeđi šećer"/>
+                                <ComboBoxItem Content="Med"/>
+                                <ComboBoxItem Content="Čokolada"/>
+                                <ComboBoxItem Content="Agavin sirup"/>
+                                <ComboBoxItem Content="Stevija"/>
+                                <ComboBoxItem Content="Bez šećera"/>
+                            </ComboBox>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Vreme i porcije -->
+                    <Border Background="#3D6B80" CornerRadius="10" Padding="14,12" Margin="0,0,0,14">
+                        <StackPanel>
+                            <TextBlock Text="⏱  Vreme i porcije" Foreground="White"
+                                       FontSize="13" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                            <TextBlock Text="Vreme pripreme" Foreground="#BBDDEE" FontSize="11" Margin="0,0,0,4"/>
+                            <ComboBox x:Name="CmbVreme" Style="{StaticResource FilterCombo}" Margin="0,0,0,10">
+                                <ComboBoxItem Content="Sve (vreme)" IsSelected="True"/>
+                                <ComboBoxItem Content="Do 15 minuta"/>
+                                <ComboBoxItem Content="Do 30 minuta"/>
+                                <ComboBoxItem Content="Do 1 sat"/>
+                                <ComboBoxItem Content="1-2 sata"/>
+                                <ComboBoxItem Content="Više od 2 sata"/>
+                            </ComboBox>
+                            <TextBlock Text="Broj porcija" Foreground="#BBDDEE" FontSize="11" Margin="0,0,0,4"/>
+                            <ComboBox x:Name="CmbPorcije" Style="{StaticResource FilterCombo}">
+                                <ComboBoxItem Content="Sve (porcije)" IsSelected="True"/>
+                                <ComboBoxItem Content="1 porcija"/>
+                                <ComboBoxItem Content="2 porcije"/>
+                                <ComboBoxItem Content="3-4 porcije"/>
+                                <ComboBoxItem Content="5-6 porcija"/>
+                                <ComboBoxItem Content="7-10 porcija"/>
+                                <ComboBoxItem Content="10+ porcija"/>
+                            </ComboBox>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+
+                <!-- ===== DESNA KOLONA ===== -->
+                <StackPanel Grid.Column="2">
+
+                    <!-- Alergije -->
+                    <Border Background="#3D6B80" CornerRadius="10" Padding="14,12" Margin="0,0,0,14">
+                        <StackPanel>
+                            <TextBlock Text="⚠  Alergije" Foreground="White"
+                                       FontSize="13" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                            <ComboBox x:Name="CmbAlergije" Style="{StaticResource FilterCombo}">
+                                <ComboBoxItem Content="Bez filtera" IsSelected="True"/>
+                                <ComboBoxItem Content="Bez glutena"/>
+                                <ComboBoxItem Content="Bez laktoze"/>
+                                <ComboBoxItem Content="Bez jaja"/>
+                                <ComboBoxItem Content="Bez orašastih plodova"/>
+                                <ComboBoxItem Content="Bez soje"/>
+                                <ComboBoxItem Content="Bez ribe i morskih plodova"/>
+                                <ComboBoxItem Content="Bez sesama"/>
+                                <ComboBoxItem Content="Bez celera"/>
+                            </ComboBox>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Dijeta -->
+                    <Border Background="#3D6B80" CornerRadius="10" Padding="14,12" Margin="0,0,0,14">
+                        <StackPanel>
+                            <TextBlock Text="🥗  Dijetetske potrebe" Foreground="White"
+                                       FontSize="13" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                            <ComboBox x:Name="CmbDijeta" Style="{StaticResource FilterCombo}">
+                                <ComboBoxItem Content="Bez filtera" IsSelected="True"/>
+                                <ComboBoxItem Content="Vegetarijansko"/>
+                                <ComboBoxItem Content="Vegansko"/>
+                                <ComboBoxItem Content="Keto dijeta"/>
+                                <ComboBoxItem Content="Niskokalorijsko"/>
+                                <ComboBoxItem Content="Visoko proteinska ishrana"/>
+                                <ComboBoxItem Content="Za dijabetičare"/>
+                                <ComboBoxItem Content="Bez ugljenih hidrata"/>
+                                <ComboBoxItem Content="Paleo dijeta"/>
+                                <ComboBoxItem Content="Mediteranska ishrana"/>
+                            </ComboBox>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Namirnice koje se izbegavaju -->
+                    <Border Background="#3D6B80" CornerRadius="10" Padding="14,12" Margin="0,0,0,14">
+                        <StackPanel>
+                            <TextBlock Text="🚫  Namirnice koje se izbegavaju" Foreground="White"
+                                       FontSize="13" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                            <ComboBox x:Name="CmbIzbegavati" Style="{StaticResource FilterCombo}">
+                                <ComboBoxItem Content="Bez filtera" IsSelected="True"/>
+                                <ComboBoxItem Content="Luk"/>
+                                <ComboBoxItem Content="Beli luk"/>
+                                <ComboBoxItem Content="Ljute papričice"/>
+                                <ComboBoxItem Content="Gljive"/>
+                                <ComboBoxItem Content="Plodovi mora"/>
+                                <ComboBoxItem Content="Crveno meso"/>
+                                <ComboBoxItem Content="Svinjsko meso"/>
+                                <ComboBoxItem Content="Iznutrice"/>
+                            </ComboBox>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Religijske restrikcije -->
+                    <Border Background="#3D6B80" CornerRadius="10" Padding="14,12" Margin="0,0,0,14">
+                        <StackPanel>
+                            <TextBlock Text="✝  Religijske i kulturne restrikcije" Foreground="White"
+                                       FontSize="13" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                            <ComboBox x:Name="CmbReligija" Style="{StaticResource FilterCombo}">
+                                <ComboBoxItem Content="Bez filtera" IsSelected="True"/>
+                                <ComboBoxItem Content="Halal"/>
+                                <ComboBoxItem Content="Košer"/>
+                                <ComboBoxItem Content="Pravoslavni post"/>
+                                <ComboBoxItem Content="Katolički post"/>
+                                <ComboBoxItem Content="Jain (bez mesa i jaja)"/>
+                                <ComboBoxItem Content="Hindu (bez govedine)"/>
+                            </ComboBox>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Intolerancije -->
+                    <Border Background="#3D6B80" CornerRadius="10" Padding="14,12" Margin="0,0,0,14">
+                        <StackPanel>
+                            <TextBlock Text="💊  Intolerancije" Foreground="White"
+                                       FontSize="13" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                            <ComboBox x:Name="CmbIntolerancije" Style="{StaticResource FilterCombo}">
+                                <ComboBoxItem Content="Bez filtera" IsSelected="True"/>
+                                <ComboBoxItem Content="Intolerancija na laktozu"/>
+                                <ComboBoxItem Content="Celijakija (gluten)"/>
+                                <ComboBoxItem Content="Intolerancija na jaja"/>
+                                <ComboBoxItem Content="Intolerancija na fruktozu"/>
+                                <ComboBoxItem Content="Intolerancija na histamin"/>
+                                <ComboBoxItem Content="Intolerancija na sorbitol"/>
+                            </ComboBox>
+                        </StackPanel>
+                    </Border>
+
+                </StackPanel>
+            </Grid>
+        </ScrollViewer>
+
+        <!-- DUGMAD -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal"
+                    HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Button Content="Poništi sve filtere" Style="{StaticResource OutlineDugme}"
+                    Width="150" Click="BtnPonisti_Click" Margin="0,0,15,0"/>
+            <Button Content="🔍  Pretraži" Style="{StaticResource PrimarnoDigme}"
+                    Width="130" Click="BtnPretrazi_Click"/>
+        </StackPanel>
+    </Grid>
+</Page>

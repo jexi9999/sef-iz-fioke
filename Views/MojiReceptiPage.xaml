@@ -1,0 +1,192 @@
+﻿<Page x:Class="SefIzFioke.Views.MojiReceptiPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Background="#5B8FA8"
+      Title="Moji recepti">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="65"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- HEADER -->
+        <Border Grid.Row="0" Background="#4A7A8F" Padding="15,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Border Width="48" Height="48" Background="White" CornerRadius="6" Margin="0,0,10,0">
+                        <Image Source="/Assets/favicon_io/favicon.ico" Stretch="Uniform" Margin="4"/>
+                    </Border>
+                    <TextBlock FontSize="18" Foreground="White" VerticalAlignment="Center"
+                               FontFamily="Palatino Linotype" FontStyle="Italic">
+                        <Run Text="Šef iz fioke"/>
+                        <Run Text=" > moji recepti" Foreground="#CCCCCC" FontSize="13"/>
+                    </TextBlock>
+                </StackPanel>
+
+                <Button Grid.Column="1" Content="← Nazad"
+                        Style="{StaticResource HeaderDugme}"
+                        Width="Auto" Padding="12,0" FontSize="14"
+                        Click="BtnNazad_Click" Margin="15,0,0,0"/>
+
+                <StackPanel Grid.Column="3" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button Style="{StaticResource HeaderDugme}" Content="❓" ToolTip="Pomoć" Click="BtnPomoc_Click"/>
+                    <Button Style="{StaticResource HeaderDugme}" Content="👤" Click="BtnProfil_Click"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- SADRZAJ -->
+        <Grid Grid.Row="1" Margin="20,15">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Naslov + broj -->
+            <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,15">
+                <TextBlock Text="📋 Moji recepti" FontSize="20"
+                           FontWeight="Bold" Foreground="White"/>
+                <Border Background="#3D6B7F" CornerRadius="10" Padding="10,4" Margin="12,0,0,0">
+                    <TextBlock x:Name="TxtBrojRecepata" Foreground="White" FontSize="13"/>
+                </Border>
+            </StackPanel>
+
+            <!-- Lista recepata -->
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <!-- Poruka ako nema recepata -->
+                    <Border x:Name="PanelPrazan" Background="White" CornerRadius="12"
+                            Padding="30" Margin="0,0,0,12"
+                            Visibility="Collapsed">
+                        <StackPanel HorizontalAlignment="Center">
+                            <TextBlock Text="🍽" FontSize="60" HorizontalAlignment="Center"/>
+                            <TextBlock Text="Još nisi postavio nijedan recept."
+                                       FontSize="16" Foreground="#666"
+                                       HorizontalAlignment="Center" Margin="0,12,0,8"/>
+                            <Button Content="+ Dodaj prvi recept"
+                                    Style="{StaticResource PrimarnoDigme}"
+                                    HorizontalAlignment="Center"
+                                    Click="BtnDodajRecept_Click"/>
+                        </StackPanel>
+                    </Border>
+
+                    <ItemsControl x:Name="ListaRecepata">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Background="White" CornerRadius="12"
+                                        Margin="0,0,0,10" Padding="16,12">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="80"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <!-- Slika recepta -->
+                                        <Border Grid.Column="0" Width="72" Height="72"
+                                                CornerRadius="8" ClipToBounds="True"
+                                                Background="#EAF4F8">
+                                            <Grid>
+                                                <TextBlock Text="🍽" FontSize="32"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           Foreground="#AAA"/>
+                                                <Image x:Name="ImgKartica"
+                                                       Stretch="UniformToFill"
+                                                       Loaded="ImgKartica_Loaded"/>
+                                            </Grid>
+                                        </Border>
+
+                                        <!-- Info -->
+                                        <StackPanel Grid.Column="1" Margin="14,0,10,0"
+                                                    VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding Naziv}"
+                                                       FontSize="15" FontWeight="Bold"
+                                                       Foreground="#222"/>
+                                            <TextBlock Text="{Binding KratakOpis}"
+                                                       FontSize="12" Foreground="#666"
+                                                       TextTrimming="CharacterEllipsis"
+                                                       MaxWidth="400" Margin="0,3,0,0"/>
+                                            <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                                <Border Background="#EAF4F8" CornerRadius="4" Padding="6,2" Margin="0,0,6,0">
+                                                    <TextBlock Text="{Binding VremePripreme}" FontSize="11" Foreground="#4A7A8F"/>
+                                                </Border>
+                                                <Border Background="#EAF4F8" CornerRadius="4" Padding="6,2">
+                                                    <TextBlock FontSize="11" Foreground="#4A7A8F">
+                                                        <Run Text="{Binding BrojPorcija, Mode=OneWay}"/>
+                                                        <Run Text=" porcija"/>
+                                                    </TextBlock>
+                                                </Border>
+                                            </StackPanel>
+                                        </StackPanel>
+
+                                        <!-- Dugme Uredi -->
+                                        <Button Grid.Column="2"
+                                                Content="✏ Uredi"
+                                                Margin="0,0,8,0"
+                                                Padding="12,8"
+                                                Background="#4A7A8F"
+                                                Foreground="White"
+                                                BorderThickness="0"
+                                                Cursor="Hand"
+                                                Tag="{Binding}"
+                                                Click="BtnUredi_Click">
+                                            <Button.Template>
+                                                <ControlTemplate TargetType="Button">
+                                                    <Border x:Name="Bd" Background="{TemplateBinding Background}"
+                                                            CornerRadius="6" Padding="{TemplateBinding Padding}">
+                                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter TargetName="Bd" Property="Background" Value="#3D6B7F"/>
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Button.Template>
+                                        </Button>
+
+                                        <!-- Dugme Obriši -->
+                                        <Button Grid.Column="3"
+                                                Content="🗑 Obriši"
+                                                Padding="12,8"
+                                                Background="#E05555"
+                                                Foreground="White"
+                                                BorderThickness="0"
+                                                Cursor="Hand"
+                                                Tag="{Binding}"
+                                                Click="BtnObrisi_Click">
+                                            <Button.Template>
+                                                <ControlTemplate TargetType="Button">
+                                                    <Border x:Name="Bd" Background="{TemplateBinding Background}"
+                                                            CornerRadius="6" Padding="{TemplateBinding Padding}">
+                                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter TargetName="Bd" Property="Background" Value="#C04444"/>
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Button.Template>
+                                        </Button>
+
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</Page>
